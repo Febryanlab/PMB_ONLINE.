@@ -7,9 +7,24 @@ function loadFromStorage() {
         participants = JSON.parse(stored);
     } else {
         participants = [
-            { id: 1, nim: "202411001", nama: "Ahmad Fauzi", kode: "A3", jenisKelamin: "Laki-laki", asalSekolah: "SMA 1 Pamulang", pekerjaanOrtu: "PNS/TNI/Polri", nilaiMat: 85, nilaiBindo: 78, nilaiInggris: 80, rataRata: 81, keterangan: "Lulus" },
-            { id: 2, nim: "202411002", nama: "Siti Nurhaliza", kode: "B7", jenisKelamin: "Perempuan", asalSekolah: "SMAN 2 Tangerang", pekerjaanOrtu: "Karyawan Swasta", nilaiMat: 65, nilaiBindo: 70, nilaiInggris: 68, rataRata: 67.67, keterangan: "Cadangan" },
-            { id: 3, nim: "202411003", nama: "Budi Santoso", kode: "V1", jenisKelamin: "Laki-laki", asalSekolah: "SMA Cendekia", pekerjaanOrtu: "Wiraswasta", nilaiMat: 45, nilaiBindo: 50, nilaiInggris: 48, rataRata: 47.67, keterangan: "Tidak Lulus" }
+            { 
+                id: 1, nim: "202411001", nama: "Ahmad Fauzi", tempatLahir: "Jakarta", tanggalLahir: "2005-03-15",
+                kode: "A3", jenisKelamin: "Laki-laki", asalSekolah: "SMA 1 Pamulang", 
+                pekerjaanOrtu: "PNS/TNI/Polri", nilaiMat: 85, nilaiBindo: 78, nilaiInggris: 80, 
+                rataRata: 81, keterangan: "Lulus" 
+            },
+            { 
+                id: 2, nim: "202411002", nama: "Siti Nurhaliza", tempatLahir: "Tangerang", tanggalLahir: "2006-07-22",
+                kode: "B7", jenisKelamin: "Perempuan", asalSekolah: "SMAN 2 Tangerang", 
+                pekerjaanOrtu: "Karyawan Swasta", nilaiMat: 65, nilaiBindo: 70, nilaiInggris: 68, 
+                rataRata: 67.67, keterangan: "Cadangan" 
+            },
+            { 
+                id: 3, nim: "202411003", nama: "Budi Santoso", tempatLahir: "Depok", tanggalLahir: "2005-11-30",
+                kode: "V1", jenisKelamin: "Laki-laki", asalSekolah: "SMA Cendekia", 
+                pekerjaanOrtu: "Wiraswasta", nilaiMat: 45, nilaiBindo: 50, nilaiInggris: 48, 
+                rataRata: 47.67, keterangan: "Tidak Lulus" 
+            }
         ];
         syncStorage();
     }
@@ -42,6 +57,15 @@ function hitungRataDanKeterangan() {
     document.getElementById(id).addEventListener('input', () => hitungRataDanKeterangan());
 });
 
+function formatTanggal(tanggal) {
+    if (!tanggal) return "-";
+    const tgl = new Date(tanggal);
+    const hari = tgl.getDate();
+    const bulan = tgl.getMonth() + 1;
+    const tahun = tgl.getFullYear();
+    return `${hari.toString().padStart(2, '0')}/${bulan.toString().padStart(2, '0')}/${tahun}`;
+}
+
 function validasiKode(kode) {
     if (!kode || kode.length !== 2) return { valid: false, message: "Kode harus 2 karakter!" };
     const first = kode[0].toUpperCase();
@@ -64,6 +88,8 @@ function getGedungDanBulan(kode) {
 function resetForm() {
     document.getElementById('nim').value = '';
     document.getElementById('nama').value = '';
+    document.getElementById('tempatLahir').value = '';
+    document.getElementById('tanggalLahir').value = '';
     document.getElementById('kode').value = '';
     document.getElementById('jk').value = '';
     document.getElementById('asalSekolah').value = '';
@@ -78,6 +104,8 @@ function resetForm() {
 function simpanData() {
     const nim = document.getElementById('nim').value.trim();
     const nama = document.getElementById('nama').value.trim();
+    const tempatLahir = document.getElementById('tempatLahir').value.trim();
+    const tanggalLahir = document.getElementById('tanggalLahir').value;
     const kode = document.getElementById('kode').value.trim().toUpperCase();
     const jk = document.getElementById('jk').value;
     const asal = document.getElementById('asalSekolah').value.trim();
@@ -86,7 +114,7 @@ function simpanData() {
     let bindo = +document.getElementById('bindo').value;
     let bing = +document.getElementById('binggris').value;
 
-    if (!nim || !nama || !kode || !jk || !asal || !pekerjaanOrtu) {
+    if (!nim || !nama || !tempatLahir || !tanggalLahir || !kode || !jk || !asal || !pekerjaanOrtu) {
         return Swal.fire("Error", "Semua field harus diisi!", "error");
     }
     if (isNaN(mat) || isNaN(bindo) || isNaN(bing)) {
@@ -107,7 +135,7 @@ function simpanData() {
         if (idx !== -1) {
             participants[idx] = { 
                 ...participants[idx], 
-                nim, nama, kode, jenisKelamin: jk, asalSekolah: asal, pekerjaanOrtu,
+                nim, nama, tempatLahir, tanggalLahir, kode, jenisKelamin: jk, asalSekolah: asal, pekerjaanOrtu,
                 nilaiMat: mat, nilaiBindo: bindo, nilaiInggris: bing, 
                 rataRata: rataRounded, keterangan: ketFix 
             };
@@ -116,7 +144,7 @@ function simpanData() {
     } else {
         const newId = Date.now();
         participants.push({ 
-            id: newId, nim, nama, kode, jenisKelamin: jk, asalSekolah: asal, pekerjaanOrtu,
+            id: newId, nim, nama, tempatLahir, tanggalLahir, kode, jenisKelamin: jk, asalSekolah: asal, pekerjaanOrtu,
             nilaiMat: mat, nilaiBindo: bindo, nilaiInggris: bing, 
             rataRata: rataRounded, keterangan: ketFix 
         });
@@ -155,6 +183,8 @@ function editData(id) {
     editId = id;
     document.getElementById('nim').value = p.nim;
     document.getElementById('nama').value = p.nama;
+    document.getElementById('tempatLahir').value = p.tempatLahir || '';
+    document.getElementById('tanggalLahir').value = p.tanggalLahir || '';
     document.getElementById('kode').value = p.kode;
     document.getElementById('jk').value = p.jenisKelamin;
     document.getElementById('asalSekolah').value = p.asalSekolah;
@@ -174,7 +204,7 @@ function getFilteredData() {
         filtered = filtered.filter(p => 
             p.nim.includes(search) || 
             p.nama.toLowerCase().includes(search) || 
-            p.asalSekolah.toLowerCase().includes(search)
+            (p.asalSekolah && p.asalSekolah.toLowerCase().includes(search))
         );
     }
     if (filter !== "ALL") filtered = filtered.filter(p => p.keterangan === filter);
@@ -185,7 +215,7 @@ function renderTable() {
     const data = getFilteredData();
     const tbody = document.getElementById('tableBody');
     if (data.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='14' style='text-align:center'>Tidak ada data pendaftar</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='16' style='text-align:center'>Tidak ada data pendaftar</td></tr>";
         return;
     }
     tbody.innerHTML = "";
@@ -194,18 +224,20 @@ function renderTable() {
         row.insertCell(0).innerText = i + 1;
         row.insertCell(1).innerText = p.nim;
         row.insertCell(2).innerText = p.nama;
-        row.insertCell(3).innerText = p.kode;
-        row.insertCell(4).innerText = getGedungDanBulan(p.kode);
-        row.insertCell(5).innerText = p.jenisKelamin;
-        row.insertCell(6).innerText = p.asalSekolah;
-        row.insertCell(7).innerText = p.pekerjaanOrtu || '-';
-        row.insertCell(8).innerText = p.nilaiMat;
-        row.insertCell(9).innerText = p.nilaiBindo;
-        row.insertCell(10).innerText = p.nilaiInggris;
-        row.insertCell(11).innerText = p.rataRata;
+        row.insertCell(3).innerText = p.tempatLahir || '-';
+        row.insertCell(4).innerText = formatTanggal(p.tanggalLahir);
+        row.insertCell(5).innerText = p.kode;
+        row.insertCell(6).innerText = getGedungDanBulan(p.kode);
+        row.insertCell(7).innerText = p.jenisKelamin;
+        row.insertCell(8).innerText = p.asalSekolah;
+        row.insertCell(9).innerText = p.pekerjaanOrtu || '-';
+        row.insertCell(10).innerText = p.nilaiMat;
+        row.insertCell(11).innerText = p.nilaiBindo;
+        row.insertCell(12).innerText = p.nilaiInggris;
+        row.insertCell(13).innerText = p.rataRata;
         let badge = p.keterangan === "Lulus" ? "✅ Lulus" : (p.keterangan === "Cadangan" ? "⚠️ Cadangan" : "❌ Tidak Lulus");
-        row.insertCell(12).innerHTML = `<strong>${badge}</strong>`;
-        const act = row.insertCell(13);
+        row.insertCell(14).innerHTML = `<strong>${badge}</strong>`;
+        const act = row.insertCell(15);
         act.className = "action-icons";
         act.innerHTML = `<i class="fas fa-edit" data-id="${p.id}"></i> <i class="fas fa-trash-alt" data-id="${p.id}"></i>`;
     });
