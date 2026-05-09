@@ -36,6 +36,14 @@
                     <input type="text" id="nama" placeholder="Nama lengkap peserta">
                 </div>
                 <div class="field">
+                    <label><i class="fas fa-map-marker-alt"></i> Tempat Lahir</label>
+                    <input type="text" id="tempatLahir" placeholder="Contoh: Jakarta">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-calendar-alt"></i> Tanggal Lahir</label>
+                    <input type="date" id="tanggalLahir">
+                </div>
+                <div class="field">
                     <label><i class="fas fa-qrcode"></i> Kode Pendaftaran (2 karakter)</label>
                     <input type="text" id="kode" placeholder="A2, B7, V1" maxlength="2">
                 </div>
@@ -140,13 +148,14 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>No</th><th>NIM</th><th>Nama</th><th>Kode</th><th>Lokasi Tes</th><th>JK</th>
-                            <th>Sekolah</th><th>Pekerjaan Ortu</th><th>Mat</th><th>B.Indo</th>
-                            <th>B.Ing</th><th>Rata</th><th>Status</th><th>Aksi</th>
+                            <th>No</th><th>NIM</th><th>Nama</th><th>Tempat Lahir</th><th>Tgl Lahir</th>
+                            <th>Kode</th><th>Lokasi Tes</th><th>JK</th><th>Sekolah</th>
+                            <th>Pekerjaan Ortu</th><th>Mat</th><th>B.Indo</th><th>B.Ing</th>
+                            <th>Rata</th><th>Status</th><th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <tr class="skeleton"><td colspan="14">Memuat data...</td></tr>
+                        <tr class="skeleton"><td colspan="16">Memuat data...</td></tr>
                     </tbody>
                 </table>
             </div>
