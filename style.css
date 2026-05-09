@@ -12,11 +12,11 @@
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
-/* DARK MODE - VERSI LEBIH SOFT/RINGAN (tidak terlalu gelap) */
+/* DARK MODE - SOFT */
 body.dark {
-    --bg-page: #1a2634;      /* Lebih terang dari #0f172a */
-    --card-bg: #2d3a4a;      /* Lebih terang dari #1e293b */
-    --text-dark: #e2e8f0;    /* Sedikit lebih soft */
+    --bg-page: #1a2634;
+    --card-bg: #2d3a4a;
+    --text-dark: #e2e8f0;
     --text-muted: #94a3b8;
     --border: #3a4a5c;
 }
@@ -31,27 +31,28 @@ body.dark {
 body {
     background: var(--bg-page);
     color: var(--text-dark);
-    padding: 2rem 1.5rem;
+    padding: 1rem;  /* Dikecilkan dari 2rem 1.5rem */
     transition: background 0.2s, color 0.2s;
 }
 
-/* Container */
+/* Container - diperkecil max-width */
 .container {
-    max-width: 1400px;
+    max-width: 1200px;  /* Dikecilkan dari 1400px */
     margin: 0 auto;
 }
 
-/* Theme toggle */
+/* Theme toggle - diposisikan agar tidak menutup logo */
 .theme-toggle {
     position: fixed;
     top: 20px;
-    right: 30px;
+    right: 20px;
     background: var(--card-bg);
-    padding: 8px 18px;
+    padding: 6px 14px;  /* Dikecilkan dari 8px 18px */
     border-radius: 40px;
     display: flex;
-    gap: 8px;
+    gap: 6px;
     font-weight: 600;
+    font-size: 0.75rem;  /* Ukuran font dikecilkan */
     cursor: pointer;
     z-index: 100;
     box-shadow: var(--shadow-sm);
@@ -60,26 +61,29 @@ body {
 .theme-toggle:hover {
     transform: scale(0.97);
 }
+.theme-toggle i {
+    font-size: 0.8rem;
+}
 
-/* Header */
+/* Header - margin diperkecil */
 .header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;  /* Dikecilkan dari 2rem */
 }
 .logo-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;  /* Dikecilkan dari 2.5rem */
     color: var(--primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
 .header h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;  /* Dikecilkan dari 1.8rem */
     font-weight: 700;
     color: var(--primary);
 }
 .tagline {
-    font-size: 0.8rem;
+    font-size: 0.7rem;  /* Dikecilkan dari 0.8rem */
     color: var(--text-muted);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 body.dark .header h1 {
     color: #f1f5f9;
@@ -88,19 +92,19 @@ body.dark .header h1 {
 /* Card umum */
 .card {
     background: var(--card-bg);
-    border-radius: 24px;
+    border-radius: 20px;  /* Dikecilkan dari 24px */
     box-shadow: var(--shadow-md);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    padding: 1.2rem;  /* Dikecilkan dari 1.5rem */
+    margin-bottom: 1.5rem;  /* Dikecilkan dari 2rem */
     border: 1px solid var(--border);
 }
 .card-header {
-    font-size: 1.2rem;
+    font-size: 1.1rem;  /* Dikecilkan dari 1.2rem */
     font-weight: 700;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     color: var(--primary);
     border-left: 4px solid var(--accent);
     padding-left: 12px;
@@ -109,29 +113,29 @@ body.dark .header h1 {
 /* Form layout 2 kolom */
 .form-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  /* Dikecilkan dari 300px */
+    gap: 1rem;  /* Dikecilkan dari 1.2rem */
 }
 .field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
 }
 .field label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;  /* Dikecilkan dari 0.75rem */
     font-weight: 600;
     color: var(--text-muted);
     letter-spacing: 0.3px;
 }
 .field label i {
-    width: 20px;
+    width: 18px;
     color: var(--accent);
 }
 .field input, .field select {
-    padding: 10px 14px;
+    padding: 8px 12px;  /* Dikecilkan dari 10px 14px */
     border: 1px solid var(--border);
-    border-radius: 14px;
-    font-size: 0.85rem;
+    border-radius: 12px;  /* Dikecilkan dari 14px */
+    font-size: 0.8rem;
     background: var(--card-bg);
     color: var(--text-dark);
     transition: 0.2s;
@@ -151,19 +155,20 @@ body.dark .readonly input {
 /* Tombol */
 .button-group {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.8rem;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
     flex-wrap: wrap;
 }
 .btn {
-    padding: 10px 24px;
+    padding: 8px 20px;  /* Dikecilkan dari 10px 24px */
     border-radius: 40px;
     font-weight: 600;
+    font-size: 0.8rem;
     border: none;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     transition: 0.2s;
 }
 .btn.primary {
@@ -187,35 +192,35 @@ body.dark .readonly input {
 .stats-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 0.8rem;  /* Dikecilkan dari 1rem */
+    margin-bottom: 1.5rem;  /* Dikecilkan dari 2rem */
 }
 .stat-card {
     flex: 1;
     background: var(--card-bg);
-    border-radius: 20px;
-    padding: 1rem;
+    border-radius: 16px;  /* Dikecilkan dari 20px */
+    padding: 0.8rem;  /* Dikecilkan dari 1rem */
     text-align: center;
     border: 1px solid var(--border);
     transition: 0.2s;
 }
 .stat-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
 .stat-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;  /* Dikecilkan dari 2rem */
     color: var(--accent);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 .stat-number {
-    font-size: 1.8rem;
+    font-size: 1.5rem;  /* Dikecilkan dari 1.8rem */
     font-weight: 800;
     color: var(--primary);
     line-height: 1;
 }
 .stat-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;  /* Dikecilkan dari 0.7rem */
     text-transform: uppercase;
     font-weight: 600;
     color: var(--text-muted);
@@ -226,29 +231,35 @@ body.dark .readonly input {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.2rem;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
 }
 .search-wrapper, .filter-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 60px;
-    padding: 0 16px;
+    border-radius: 40px;
+    padding: 0 12px;
 }
 .search-wrapper input, .filter-wrapper select {
     border: none;
     background: transparent;
-    padding: 10px 0;
+    padding: 8px 0;
     outline: none;
     color: var(--text-dark);
+    font-size: 0.8rem;
 }
 .filter-wrapper select {
     cursor: pointer;
 }
 .search-wrapper input::placeholder {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+.search-wrapper i, .filter-wrapper i {
+    font-size: 0.8rem;
     color: var(--text-muted);
 }
 
@@ -259,16 +270,17 @@ body.dark .readonly input {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.75rem;
+    font-size: 0.7rem;  /* Dikecilkan dari 0.75rem */
 }
 th {
     background: var(--primary);
     color: white;
-    padding: 12px 8px;
+    padding: 10px 6px;  /* Dikecilkan dari 12px 8px */
     font-weight: 600;
+    font-size: 0.7rem;
 }
 td {
-    padding: 10px 8px;
+    padding: 8px 6px;  /* Dikecilkan dari 10px 8px */
     border-bottom: 1px solid var(--border);
     color: var(--text-dark);
 }
@@ -279,30 +291,36 @@ body.dark tbody tr:hover td {
     background: rgba(255, 255, 255, 0.05);
 }
 .action-icons i {
-    margin: 0 5px;
+    margin: 0 3px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.85rem;
 }
 .action-icons i.fa-edit:hover { color: var(--accent); }
 .action-icons i.fa-trash-alt:hover { color: #dc2626; }
 
 .skeleton td {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     color: var(--text-muted);
 }
 footer {
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-muted);
     margin-top: 1rem;
 }
 
 /* Responsif */
 @media (max-width: 700px) {
-    body { padding: 1rem; }
-    .header h1 { font-size: 1.3rem; }
+    body { padding: 0.8rem; }
+    .header h1 { font-size: 1.2rem; }
     .stat-number { font-size: 1.2rem; }
-    .stat-icon { font-size: 1.5rem; }
-    th, td { font-size: 0.65rem; padding: 6px 4px; }
+    .stat-icon { font-size: 1.2rem; }
+    th, td { font-size: 0.6rem; padding: 5px 3px; }
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        font-size: 0.65rem;
+    }
     }
