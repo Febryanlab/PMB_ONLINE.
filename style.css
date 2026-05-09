@@ -2,10 +2,10 @@
     --primary: #1e3a5f;
     --primary-light: #2c5282;
     --accent: #2c5282;
-    --accent-dark: #2c5282;
+    --accent-dark: #ffffff;
     --bg-page: #f4f7fc;
     --card-bg: #ffffff;
-    --text-dark: #1e293b;
+    --text-dark: #ffffff;
     --text-muted: #475569;
     --border: #e2e8f0;
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -16,7 +16,7 @@
 body.dark {
     --bg-page: #1a2634;
     --card-bg: #2d3a4a;
-    --text-dark: #e2e8f0;
+    --text-dark: #ffffff;
     --text-muted: #94a3b8;
     --border: #3a4a5c;
 }
