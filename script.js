@@ -1,40 +1,179 @@
 let participants = [];
 let editId = null;
 
+// Ambil data dari LocalStorage
 function loadFromStorage() {
-    const stored = localStorage.getItem("univ_pendaftaran_v4");
+    const stored = localStorage.getItem("pmb_unpam_v1");
     if (stored) {
         participants = JSON.parse(stored);
-    } else {
-        participants = [
-            { id: 1, nim: "202411001", nama: "Ahmad Fauzi", kode: "A3", jenisKelamin: "Laki-laki", asalSekolah: "SMA 1 Pamulang", nilaiMat: 85, nilaiBindo: 78, nilaiInggris: 80, rataRata: 81, keterangan: "Lulus" },
-            { id: 2, nim: "202411002", nama: "Siti Nurhaliza", kode: "B7", jenisKelamin: "Perempuan", asalSekolah: "SMAN 2 Tangerang", nilaiMat: 65, nilaiBindo: 70, nilaiInggris: 68, rataRata: 67.67, keterangan: "Cadangan" },
-            { id: 3, nim: "202411003", nama: "Budi Santoso", kode: "V1", jenisKelamin: "Laki-laki", asalSekolah: "SMA Cendekia", nilaiMat: 45, nilaiBindo: 50, nilaiInggris: 48, rataRata: 47.67, keterangan: "Tidak Lulus" }
-        ];
-        syncStorage();
     }
     renderStatistik();
     renderTable();
 }
-function syncStorage() { localStorage.setItem("univ_pendaftaran_v4", JSON.stringify(participants)); }
 
-function hitungRataDanKeterangan() {
-    let mat = +document.getElementById('mat').value || 0;
-    let bindo = +document.getElementById('bindo').value || 0;
-    let bing = +document.getElementById('binggris').value || 0;
-    mat = Math.min(100, Math.max(0, mat));
-    bindo = Math.min(100, Math.max(0, bindo));
-    bing = Math.min(100, Math.max(0, bing));
+function syncStorage() {
+    localStorage.setItem("pmb_unpam_v1", JSON.stringify(participants));
+}
+
+// Logika Hitung Otomatis
+function hitungOtomatis() {
+    const mat = +document.getElementById('mat').value || 0;
+    const bindo = +document.getElementById('bindo').value || 0;
+    const bing = +document.getElementById('binggris').value || 0;
+    
     const rata = ((mat + bindo + bing) / 3).toFixed(2);
     document.getElementById('rata').value = rata;
-    let keterangan = "";
-    if (rata >= 70) keterangan = "Lulus";
-    else if (rata >= 60) keterangan = "Cadangan";
-    else keterangan = "Tidak Lulus";
-    document.getElementById('keterangan').value = keterangan;
-    return { rata: parseFloat(rata), keterangan };
+
+    let ket = "Tidak Lulus";
+    if (rata >= 70) ket = "Lulus";
+    else if (rata >= 60) ket = "Cadangan";
+    
+    document.getElementById('keterangan').value = ket;
 }
+
 ['mat','bindo','binggris'].forEach(id => {
+    document.getElementById(id).addEventListener('input', hitungOtomatis);
+});
+
+// Penentuan Lokasi dari Kode
+function getLokasi(kode) {
+    if (!kode) return "-";
+    const char = kode[0].toUpperCase();
+    if (char === 'A') return "Gedung A";
+    if (char === 'B') return "Gedung B";
+    if (char === 'V') return "Viktor";
+    return "Lainnya";
+}
+
+// Simpan Data
+function simpanData() {
+    const data = {
+        nim: document.getElementById('nim').value,
+        nama: document.getElementById('nama').value,
+        pekerjaanOrtu: document.getElementById('pekerjaanOrtu').value,
+        kode: document.getElementById('kode').value.toUpperCase(),
+        jk: document.getElementById('jk').value,
+        asalSekolah: document.getElementById('asalSekolah').value,
+        mat: +document.getElementById('mat').value,
+        bindo: +document.getElementById('bindo').value,
+        bing: +document.getElementById('binggris').value,
+        rata: document.getElementById('rata').value,
+        keterangan: document.getElementById('keterangan').value
+    };
+
+    if (!data.nim || !data.nama || !data.pekerjaanOrtu) {
+        return Swal.fire("Error", "Mohon isi NIM, Nama, dan Pekerjaan Ortu!", "error");
+    }
+
+    if (editId) {
+        const index = participants.findIndex(p => p.id === editId);
+        participants[index] = { ...data, id: editId };
+        editId = null;
+        Swal.fire("Berhasil", "Data diperbarui!", "success");
+    } else {
+        participants.push({ ...data, id: Date.now() });
+        Swal.fire("Berhasil", "Data disimpan!", "success");
+    }
+
+    syncStorage();
+    resetForm();
+    renderStatistik();
+    renderTable();
+}
+
+function resetForm() {
+    document.getElementById('nim').value = '';
+    document.getElementById('nama').value = '';
+    document.getElementById('pekerjaanOrtu').value = '';
+    document.getElementById('kode').value = '';
+    document.getElementById('jk').value = '';
+    document.getElementById('asalSekolah').value = '';
+    document.getElementById('mat').value = 0;
+    document.getElementById('bindo').value = 0;
+    document.getElementById('binggris').value = 0;
+    document.getElementById('rata').value = '';
+    document.getElementById('keterangan').value = '';
+    editId = null;
+}
+
+function editData(id) {
+    const p = participants.find(p => p.id === id);
+    document.getElementById('nim').value = p.nim;
+    document.getElementById('nama').value = p.nama;
+    document.getElementById('pekerjaanOrtu').value = p.pekerjaanOrtu;
+    document.getElementById('kode').value = p.kode;
+    document.getElementById('jk').value = p.jk;
+    document.getElementById('asalSekolah').value = p.asalSekolah;
+    document.getElementById('mat').value = p.mat;
+    document.getElementById('bindo').value = p.bindo;
+    document.getElementById('binggris').value = p.bing;
+    hitungOtomatis();
+    editId = id;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function hapusData(id) {
+    participants = participants.filter(p => p.id !== id);
+    syncStorage();
+    renderStatistik();
+    renderTable();
+}
+
+function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const filter = document.getElementById('filterKelulusan').value;
+
+    tbody.innerHTML = "";
+    const filtered = participants.filter(p => {
+        const matchSearch = p.nama.toLowerCase().includes(search) || p.nim.includes(search);
+        const matchFilter = filter === "ALL" || p.keterangan === filter;
+        return matchSearch && matchFilter;
+    });
+
+    filtered.forEach((p, i) => {
+        const row = `<tr>
+            <td>${i + 1}</td>
+            <td>${p.nim}</td>
+            <td>${p.nama}</td>
+            <td>${p.pekerjaanOrtu}</td>
+            <td>${p.kode}</td>
+            <td>${getLokasi(p.kode)}</td>
+            <td>${p.jk}</td>
+            <td>${p.asalSekolah}</td>
+            <td>${p.mat}</td>
+            <td>${p.bindo}</td>
+            <td>${p.bing}</td>
+            <td>${p.rata}</td>
+            <td><b>${p.keterangan}</b></td>
+            <td class="action-icons">
+                <i class="fas fa-edit" onclick="editData(${p.id})"></i>
+                <i class="fas fa-trash-alt" onclick="hapusData(${p.id})"></i>
+            </td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+function renderStatistik() {
+    document.getElementById('statLulus').innerText = participants.filter(p => p.keterangan === "Lulus").length;
+    document.getElementById('statCadangan').innerText = participants.filter(p => p.keterangan === "Cadangan").length;
+    document.getElementById('statTidak').innerText = participants.filter(p => p.keterangan === "Tidak Lulus").length;
+    document.getElementById('statTotal').innerText = participants.length;
+}
+
+// Event Listeners
+document.getElementById('btnSimpan').addEventListener('click', simpanData);
+document.getElementById('btnReset').addEventListener('click', resetForm);
+document.getElementById('searchInput').addEventListener('input', renderTable);
+document.getElementById('filterKelulusan').addEventListener('change', renderTable);
+
+// Dark Mode Toggle
+document.getElementById('darkToggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+});
+
+loadFromStorage();['mat','bindo','binggris'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => hitungRataDanKeterangan());
 });
 
