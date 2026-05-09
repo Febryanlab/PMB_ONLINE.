@@ -1,0 +1,324 @@
+:root {
+    --primary: #1e3a5f;
+    --primary-light: #2c5282;
+    --accent: #2c5282;
+    --accent-dark: #2c5282;
+    --bg-page: #f4f7fc;
+    --card-bg: #ffffff;
+    --text-dark: #1e293b;
+    --text-muted: #475569;
+    --border: #e2e8f0;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg-page);
+    padding: 2rem 1.5rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Dark mode */
+body.dark {
+    --bg-page: #0f172a;
+    --card-bg: #1e293b;
+    --text-dark: #f1f5f9;
+    --text-muted: #cbd5e1;
+    --border: #334155;
+}
+body.dark .card,
+body.dark .stat-card {
+    background: var(--card-bg);
+    border-color: var(--border);
+}
+body.dark th {
+    background: #0f172a;
+    color: #94a3b8;
+}
+body.dark td {
+    border-bottom-color: #334155;
+}
+body.dark .search-wrapper,
+body.dark .filter-wrapper,
+body.dark input,
+body.dark select {
+    background: #334155;
+    color: white;
+    border-color: #475569;
+}
+body.dark .stat-number {
+    color: #f1f5f9;
+}
+
+/* Theme toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    background: var(--card-bg);
+    padding: 8px 18px;
+    border-radius: 40px;
+    display: flex;
+    gap: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+.theme-toggle:hover {
+    transform: scale(0.97);
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.logo-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+.tagline {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+body.dark .header h1 {
+    color: #f1f5f9;
+}
+
+/* Card umum */
+.card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+}
+.card-header {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary);
+    border-left: 4px solid var(--accent);
+    padding-left: 12px;
+}
+
+/* Form layout 2 kolom */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.2rem;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+}
+.field label i {
+    width: 20px;
+    color: var(--accent);
+}
+.field input, .field select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    transition: 0.2s;
+}
+.field input:focus, .field select:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(30,58,95,0.1);
+}
+.readonly input {
+    background: #f1f5f9;
+}
+body.dark .readonly input {
+    background: #334155;
+}
+
+/* Tombol */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+}
+.btn {
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+.btn.primary {
+    background: var(--primary);
+    color: white;
+}
+.btn.primary:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+}
+.btn.secondary {
+    background: var(--accent);
+    color: white;
+}
+.btn.secondary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+}
+
+/* Statistik card */
+.stats-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    flex: 1;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: 0.2s;
+}
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+.stat-icon {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+}
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Toolbar tabel */
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+.search-wrapper, .filter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 60px;
+    padding: 0 16px;
+}
+.search-wrapper input, .filter-wrapper select {
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    outline: none;
+}
+.filter-wrapper select {
+    cursor: pointer;
+}
+
+/* Tabel */
+.table-responsive {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+th {
+    background: var(--primary);
+    color: white;
+    padding: 12px 8px;
+    font-weight: 600;
+}
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+}
+tbody tr:hover td {
+    background: rgba(30,58,95,0.05);
+}
+body.dark tbody tr:hover td {
+    background: rgba(255,255,255,0.03);
+}
+.action-icons i {
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.action-icons i.fa-edit:hover { color: var(--accent); }
+.action-icons i.fa-trash-alt:hover { color: #dc2626; }
+
+.skeleton td {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-muted);
+}
+footer {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+}
+
+/* Responsif */
+@media (max-width: 700px) {
+    body { padding: 1rem; }
+    .header h1 { font-size: 1.3rem; }
+    .stat-number { font-size: 1.2rem; }
+    .stat-icon { font-size: 1.5rem; }
+    th, td { font-size: 0.65rem; padding: 6px 4px; }
+}

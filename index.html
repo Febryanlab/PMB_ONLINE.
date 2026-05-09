@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PMB UNPAM | Pendaftaran Mahasiswa Baru</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="theme-toggle" id="darkToggle">
+        <i class="fas fa-moon"></i> <span>Mode Gelap</span>
+    </div>
+
+    <div class="container">
+        <!-- Header modern dengan icon -->
+        <div class="header">
+            <div class="logo-icon"><i class="fas fa-university"></i></div>
+            <h1>Sistem Pendaftaran Mahasiswa Baru</h1>
+            <p class="tagline">UNIVERSITAS PAMULANG • Registrasi Online & Otomatis</p>
+        </div>
+
+        <!-- Form card dengan layout 2 kolom rapi -->
+        <div class="card form-card">
+            <div class="card-header">
+                <i class="fas fa-user-edit"></i> Formulir Pendaftaran
+            </div>
+            <div class="form-row">
+                <div class="field">
+                    <label><i class="fas fa-id-card"></i> NIM Pendaftaran</label>
+                    <input type="text" id="nim" placeholder="Contoh: 202410001">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-user"></i> Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Nama lengkap peserta">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-qrcode"></i> Kode Pendaftaran (2 karakter)</label>
+                    <input type="text" id="kode" placeholder="A2, B7, V1" maxlength="2">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-venus-mars"></i> Jenis Kelamin</label>
+                    <select id="jk">
+                        <option value="">Pilih</option>
+                        <option>Laki-laki</option>
+                        <option>Perempuan</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-school"></i> Asal Sekolah</label>
+                    <input type="text" id="asalSekolah" placeholder="Nama SMA/SMK/MA">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-calculator"></i> Nilai Matematika</label>
+                    <input type="number" id="mat" min="0" max="100" value="0">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-language"></i> Nilai Bahasa Indonesia</label>
+                    <input type="number" id="bindo" min="0" max="100" value="0">
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-globe"></i> Nilai Bahasa Inggris</label>
+                    <input type="number" id="binggris" min="0" max="100" value="0">
+                </div>
+                <div class="field readonly">
+                    <label><i class="fas fa-chart-line"></i> Rata-rata Nilai</label>
+                    <input type="text" id="rata" readonly placeholder="Otomatis">
+                </div>
+                <div class="field readonly">
+                    <label><i class="fas fa-clipboard-check"></i> Hasil Keterangan</label>
+                    <input type="text" id="keterangan" readonly placeholder="Otomatis">
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="btnSimpan" class="btn primary"><i class="fas fa-save"></i> Simpan</button>
+                <button id="btnReset" class="btn secondary"><i class="fas fa-undo-alt"></i> Reset</button>
+            </div>
+        </div>
+
+        <!-- Statistik dengan layout card icon -->
+        <div class="stats-wrapper">
+            <div class="stat-card" data-type="lulus">
+                <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                <div class="stat-number" id="statLulus">0</div>
+                <div class="stat-label">Lulus</div>
+            </div>
+            <div class="stat-card" data-type="cadangan">
+                <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+                <div class="stat-number" id="statCadangan">0</div>
+                <div class="stat-label">Cadangan</div>
+            </div>
+            <div class="stat-card" data-type="tidak">
+                <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                <div class="stat-number" id="statTidak">0</div>
+                <div class="stat-label">Tidak Lulus</div>
+            </div>
+            <div class="stat-card" data-type="total">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number" id="statTotal">0</div>
+                <div class="stat-label">Total Peserta</div>
+            </div>
+        </div>
+
+        <!-- Tabel dengan toolbar -->
+        <div class="card table-container">
+            <div class="table-toolbar">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari NIM, nama, atau sekolah...">
+                </div>
+                <div class="filter-wrapper">
+                    <i class="fas fa-filter"></i>
+                    <select id="filterKelulusan">
+                        <option value="ALL">Semua status</option>
+                        <option value="Lulus">✅ Lulus</option>
+                        <option value="Cadangan">⚠️ Cadangan</option>
+                        <option value="Tidak Lulus">❌ Tidak Lulus</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>No</th><th>NIM</th><th>Nama</th><th>Kode</th><th>Lokasi Tes</th><th>JK</th><th>Sekolah</th><th>Mat</th><th>B.Indo</th><th>B.Ing</th><th>Rata</th><th>Status</th><th>Aksi</th></tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr class="skeleton"><td colspan="13">Memuat data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <footer>© 2025 Universitas Pamulang — PMB Digital Generation</footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
